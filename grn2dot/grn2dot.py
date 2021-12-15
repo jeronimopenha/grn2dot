@@ -36,6 +36,9 @@ class Grn2dot:
     def get_nx_edges(self):
         return self.digraph.edges
 
+    def get_nx_digragraph(self):
+        return self.digraph
+
     def get_dot_str(self):
         return nx.nx_agraph.to_agraph(self.digraph)
 
