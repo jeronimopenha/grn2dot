@@ -10,9 +10,8 @@ class Grn2dot:
         return cls._instance
 
     def __init__(self, file_path):
-        self.nodes, self.edges, self.equations = self.process_grn_file(self.read_files(file))
+        self.nodes, self.edges, self.equations = self.process_grn_file(self.read_files(file_path))
         self.digraph = nx.DiGraph()
-        self.digraph.
         for node in self.nodes:
             if node in self.equations.keys():
                 self.digraph.add_node(node, equation=self.equations[node])
