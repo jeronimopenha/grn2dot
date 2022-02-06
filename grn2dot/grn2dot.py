@@ -121,5 +121,3 @@ class Grn2dot:
         return nodes, edges, equations
 
 
-grn = Grn2dot("../../grn_benchmarks/Benchmark_5.txt")
-print(grn.get_grn_mem_specifications())
