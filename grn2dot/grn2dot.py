@@ -4,7 +4,7 @@ import networkx as nx
 class Grn2dot:
     _instance = None
 
-    #def __new__(cls):
+    # def __new__(cls):
     #    # if cls._instance is None:
     #    cls._instance = super().__new__(cls)
     #    return cls._instance
@@ -41,6 +41,30 @@ class Grn2dot:
 
     def get_dot_str(self):
         return nx.nx_agraph.to_agraph(self.digraph)
+
+    def get_num_nodes(self):
+        return len(self.nodes)
+
+    def get_num_equations(self):
+        return len(self.equations)
+
+    def get_grn_mem_specifications(self):
+        grn_mem_specifications = []
+        for i in range(self.get_num_nodes()):
+            grn_mem_specifications.append([self.get_nodes_vector()[i], i])
+
+        counter = 0
+        for key in self.get_equations_dict():
+            equation = self.get_equations_dict()[key]
+            eq_sp = []
+            for i in range(self.get_num_nodes()):
+                if self.get_nodes_vector()[i] in equation:
+                    eq_sp.append(i)
+            eq_sp.sort(reverse=True)
+            grn_mem_specifications[counter].append(eq_sp)
+            counter = counter + 1
+
+        return grn_mem_specifications
 
     @staticmethod
     def read_file(file):
@@ -95,3 +119,7 @@ class Grn2dot:
             equation = equation.replace('not', '!')
             equations[key] = equation
         return nodes, edges, equations
+
+
+grn = Grn2dot("../../grn_benchmarks/Benchmark_5.txt")
+print(grn.get_grn_mem_specifications())
