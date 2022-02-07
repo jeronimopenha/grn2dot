@@ -51,14 +51,20 @@ class Grn2dot:
     def get_grn_mem_specifications(self):
         grn_mem_specifications = []
         for i in range(self.get_num_nodes()):
-            grn_mem_specifications.append([self.get_nodes_vector()[i], i])
+            grn_mem_specifications.append([" " + self.get_nodes_vector()[i] + " ", i])
 
         counter = 0
         for key in self.get_equations_dict():
             equation = self.get_equations_dict()[key]
+            equation = equation.replace('||', ' || ')
+            equation = equation.replace('&&', ' && ')
+            equation = equation.replace('!', ' ! ')
+            equation = equation.replace('(', ' ( ')
+            equation = equation.replace(')', ' ) ')
+            equation = " " + equation + " "
             eq_sp = []
             for i in range(self.get_num_nodes()):
-                if self.get_nodes_vector()[i] in equation:
+                if " " + self.get_nodes_vector()[i] + " " in equation:
                     eq_sp.append(i)
             eq_sp.sort(reverse=True)
             grn_mem_specifications[counter].append(eq_sp)
