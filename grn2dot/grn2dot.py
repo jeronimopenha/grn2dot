@@ -51,20 +51,14 @@ class Grn2dot:
     def get_grn_mem_specifications(self):
         grn_mem_specifications = []
         for i in range(self.get_num_nodes()):
-            grn_mem_specifications.append([" " + self.get_nodes_vector()[i] + " ", i])
+            grn_mem_specifications.append([self.get_nodes_vector()[i], i])
 
         counter = 0
         for key in self.get_equations_dict():
             equation = self.get_equations_dict()[key]
-            equation = equation.replace('||', ' || ')
-            equation = equation.replace('&&', ' && ')
-            equation = equation.replace('!', ' ! ')
-            equation = equation.replace('(', ' ( ')
-            equation = equation.replace(')', ' ) ')
-            equation = " " + equation + " "
             eq_sp = []
             for i in range(self.get_num_nodes()):
-                if " " + self.get_nodes_vector()[i] + " " in equation:
+                if self.get_nodes_vector()[i] in equation:
                     eq_sp.append(i)
             eq_sp.sort(reverse=True)
             grn_mem_specifications[counter].append(eq_sp)
@@ -94,36 +88,45 @@ class Grn2dot:
             if '=' in line:
                 eq_parts = line.split("=")
                 node = eq_parts[0]
-                equations[node.replace(' ', '')] = eq_parts[1]
+                node = node.replace(' ', '')
+                node = ' ' + node + ' '
+                equations[node] = eq_parts[1]
             else:
                 node = line
             if node not in nodes:
-                nodes.append(node.replace(' ', ''))
+                nodes.append(node)
 
         # looking for edges:
         for key, equation in equations.items():
-            # equation = equation.replace('(', ' ( ')
-            # equation = equation.replace(')', ' ) ')
-            equation = equation.replace(' ', '')
+            # equation = equation.replace(' ', '')
             edges_l = equation
             edges_l = edges_l.replace('(', '')
             edges_l = edges_l.replace(')', '')
-            edges_l = edges_l.replace('not', ' ')
-            edges_l = edges_l.replace('and', ' ')
-            edges_l = edges_l.replace('or', ' ')
+            edges_l = edges_l.replace('not', '')
+            edges_l = edges_l.replace('and', '')
+            edges_l = edges_l.replace('or', '')
             edges_l = edges_l.split(' ')
             e = []
             for edge in edges_l:
                 if edge != '':
+                    edge = ' ' + edge + ' '
                     e.append(edge)
                     if edge not in nodes:
                         nodes.append(edge)
             edges[key] = e
             # processing equations
+            equation = equation.replace(' ','')
             equation = equation.replace('and', '&&')
             equation = equation.replace('or', '||')
             equation = equation.replace('not', '!')
+            equation = equation.replace('||', ' || ')
+            equation = equation.replace('&&', ' && ')
+            equation = equation.replace('!', ' ! ')
+            equation = equation.replace('(', ' ( ')
+            equation = equation.replace(')', ' ) ')
+            equation = " " + equation + " "
+            equation = equation.replace("  ", " ")
+            equation = equation.replace("   ", " ")
             equations[key] = equation
         return nodes, edges, equations
-
 
