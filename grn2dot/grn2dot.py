@@ -100,11 +100,11 @@ class Grn2dot:
         for key, equation in equations.items():
             # equation = equation.replace(' ', '')
             edges_l = equation
-            edges_l = edges_l.replace('(', '')
-            edges_l = edges_l.replace(')', '')
-            edges_l = edges_l.replace('not', '')
-            edges_l = edges_l.replace('and', '')
-            edges_l = edges_l.replace('or', '')
+            edges_l = edges_l.replace('(', ' ')
+            edges_l = edges_l.replace(')', ' ')
+            edges_l = edges_l.replace(' not ', ' ')
+            edges_l = edges_l.replace(' and ', ' ')
+            edges_l = edges_l.replace(' or ', ' ')
             edges_l = edges_l.split(' ')
             e = []
             for edge in edges_l:
@@ -115,13 +115,13 @@ class Grn2dot:
                         nodes.append(edge)
             edges[key] = e
             # processing equations
-            equation = equation.replace(' ','')
-            equation = equation.replace('and', '&&')
-            equation = equation.replace('or', '||')
-            equation = equation.replace('not', '!')
-            equation = equation.replace('||', ' || ')
-            equation = equation.replace('&&', ' && ')
-            equation = equation.replace('!', ' ! ')
+            #equation = equation.replace(' ','')
+            equation = equation.replace(' and ', ' && ')
+            equation = equation.replace(' or ', ' || ')
+            equation = equation.replace(' not ', ' ! ')
+            equation = equation.replace(' || ', ' || ')
+            equation = equation.replace(' && ', ' && ')
+            equation = equation.replace(' ! ', ' ! ')
             equation = equation.replace('(', ' ( ')
             equation = equation.replace(')', ' ) ')
             equation = " " + equation + " "
